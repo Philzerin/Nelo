@@ -21,5 +21,8 @@ public class Register {
         this.password = password;
         this.email = email;
     }
-    public void delete(){}
+    //public void delete(){}
+    private void upload(){
+
+    }
 }
