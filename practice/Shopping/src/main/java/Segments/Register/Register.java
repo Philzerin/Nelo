@@ -7,22 +7,49 @@ package Segments.Register;
 * TODO: MONGODB, DELETE, ADD, MODIFY, AND SMS
 * */
 
+import Segments.Database;
+import org.bson.Document;
+import org.bson.conversions.Bson;
+
+import javax.xml.crypto.Data;
+import java.util.Scanner;
+
 public class Register {
 
+    private Database database;
     private String username;
     private String password;
     private String email;
-    public Register(){}
+    private Scanner scanner = new Scanner(System.in);
 
-    public void create(String username,
+    public Register(Database database){ this.database = database; }
+
+    public Register create(String username,
                        String password,
                        String email) {
         this.username = username;
         this.password = password;
         this.email = email;
-    }
-    //public void delete(){}
-    private void upload(){
 
+        return this;
+    }
+    public Register create(Boolean show) {
+        if (show) {
+            /* todo: Needs Validation */
+            System.out.print("User Registration\n");
+            System.out.print("Username: ");
+            this.username = scanner.next();
+            System.out.print("Password: ");
+            this.password = scanner.next();
+            System.out.print("Email: ");
+            this.email = scanner.next();
+        }
+        return this;
+    }
+    public void upload(){
+        database.addDocument("Accounts", new Document()
+                .append("Username", username)
+                .append("Password", password)
+                .append("Email", email));
     }
 }

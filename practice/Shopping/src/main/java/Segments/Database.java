@@ -1,25 +1,13 @@
 package Segments;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoException;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.*;
+import org.bson.BsonDocument;
 import org.bson.Document;
 import org.bson.conversions.Bson;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Database {
@@ -81,6 +69,15 @@ public class Database {
         }
     }
 
+    public void addDocument(String collectionName, List<Document> document){
+        if (collection.contains(collectionName)) {
+            mongoDatabase.getCollection(collectionName).insertMany(document);
+            //System.out.println("[Database] Successfully Inserted '" + document + "' into " + collectionName + ".");
+        } else {
+            System.out.println("[Database] The collection with the name '" + collectionName + "' does not exist.");
+        }
+    }
+
     public void removeDocument(String collectionName, Document document){
         if (collection.contains(collectionName)) {
             mongoDatabase.getCollection(collectionName).deleteOne(document);
@@ -97,5 +94,14 @@ public class Database {
         } else {
             System.out.println("[Database] The collection with the name '" + collectionName + "' does not exist.");
         }
+    }
+
+    public void findDocument(String collectionName, Document document, String key){
+        mongoDatabase.getCollection(collectionName).find(document).filter((Bson) new Document().get(key));
+    }
+    public void findDocument(String collectionName, String key, String value){
+        FindIterable<Document> test = mongoDatabase.getCollection(collectionName).find().filter(
+                BsonDocument.parse("{" + key + ":'" + value + "'}"));
+        test.comment("Testing");
     }
 }
