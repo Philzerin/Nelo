@@ -1,5 +1,6 @@
-package Segments;
+package Segments.Database;
 
+import Segments.Utils;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoException;
 import com.mongodb.client.*;
@@ -99,6 +100,7 @@ public class Database {
     public void findDocument(String collectionName, Document document, String key){
         mongoDatabase.getCollection(collectionName).find(document).filter((Bson) new Document().get(key));
     }
+    // not working properly
     public void findDocument(String collectionName, String key, String value){
         FindIterable<Document> test = mongoDatabase.getCollection(collectionName).find().filter(
                 BsonDocument.parse("{" + key + ":'" + value + "'}"));

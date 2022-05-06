@@ -7,11 +7,9 @@ package Segments.Register;
 * TODO: MONGODB, DELETE, ADD, MODIFY, AND SMS
 * */
 
-import Segments.Database;
+import Segments.Database.Database;
 import org.bson.Document;
-import org.bson.conversions.Bson;
 
-import javax.xml.crypto.Data;
 import java.util.Scanner;
 
 public class Register {
@@ -23,7 +21,6 @@ public class Register {
     private Scanner scanner = new Scanner(System.in);
 
     public Register(Database database){ this.database = database; }
-
     public Register create(String username,
                        String password,
                        String email) {
